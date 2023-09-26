@@ -1,23 +1,23 @@
 # MemoryPoolsAllocator
 
-Аллокатор работает на основе выделенных заранее блоков памяти, соответсвует [требованиям к аллокаторам](https://en.cppreference.com/w/cpp/named_req/Allocator).
+The allocator operates on the basis of pre-allocated memory blocks and meets [requirements for allocators](https://en.cppreference.com/w/cpp/named_req/Allocator).
 
-Проведено сравнение с стандарным аллокатором при взаимодействии с контейнерами, полученные результаты изображены на [графике](analysis/myplot.png) - потраченное время на добавление элемента в вектор, в зависимости от количества добавленных элементов.
+A comparison was made with the standard allocator when interacting with containers, the results obtained are shown in [graph](analysis/myplot.png) - the time spent adding an element to the vector, depending on the number of added elements.
 
-## Принцип работы
+## Principle of operation
 
-- Для аллокации памяти аллокатор использует заранее выделенные участки памяти
-- Память изначальльно выделяется [пулами](https://en.wikipedia.org/wiki/Memory_pool)
-- Пулы бьются на кусочки одинакового размера
-- Пул умеет выделять и освобождать память только кусочками (один или более)
-- Пул обладает информацией о свободных и занятых кусочках
-- Пул очищает память лишь в конце своей "жизни"
-- Аллокатор при выделение памяти размер N байт ищет среди пулов наиболее подходящий так, чтобы наиболее оптимально выделять память, если это невозможно то выбрасывается исключение std::bad_alloc
-- При освобождении через аллокатор, кусочки памяти вновь пригодны для использования
+- To allocate memory, the allocator uses pre-allocated memory areas
+- Memory is initially allocated by [pools](https://en.wikipedia.org/wiki/Memory_pool)
+- Pools break into pieces of the same size
+- The pool can allocate and free memory only in pieces (one or more)
+- The pool has information about free and occupied pieces
+- The pool clears its memory only at the end of its “life”
+- When allocating memory of size N bytes, the allocator searches among the pools for the most suitable one so as to allocate memory most optimally; if this is impossible, then the exception std::bad_alloc is thrown
+- When freed through the allocator, pieces of memory are again usable
 
-## Реализация
-Размеры пулов, их количество, а также размеры кусочков - параметризуются.
+## Implementation
+The sizes of the pools, their number, as well as the sizes of the pieces are parameterized.
 
-## Ограничения
+## Restrictions
 
-Не используется <memory_resource>.
+<memory_resource> is not used.
